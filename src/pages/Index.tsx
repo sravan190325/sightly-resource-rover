@@ -1,20 +1,23 @@
+
 import React, { useState, useMemo, useRef } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FilterBar from '@/components/FilterBar';
 import SummaryBoxes from '@/components/SummaryBoxes';
 import ResourceTable from '@/components/ResourceTable';
+import GroupedResourceTable from '@/components/GroupedResourceTable';
 import ChartSection from '@/components/ChartSection';
-import { resourceData, calculateSummaryStats } from '@/services/resourceData';
+import { resourceData, calculateSummaryStats, groupResourcesByProject } from '@/services/resourceData';
 import { ResourceData } from '@/types/resource';
 import InfoCard from '@/components/InfoCard';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, Layers } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
 const Index = () => {
   const [clientPartnerFilter, setClientPartnerFilter] = useState<string>("All");
   const [endDateFilter, setEndDateFilter] = useState<string | null>(null);
+  const [groupByProject, setGroupByProject] = useState<boolean>(false);
   const dashboardRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -25,6 +28,10 @@ const Index = () => {
       return matchesClientPartner && matchesEndDate;
     });
   }, [clientPartnerFilter, endDateFilter]);
+
+  const groupedData = useMemo(() => {
+    return groupResourcesByProject(filteredData);
+  }, [filteredData]);
 
   const summaryStats = useMemo(() => {
     return calculateSummaryStats(filteredData);
@@ -93,6 +100,16 @@ const Index = () => {
     }
   };
 
+  const toggleGrouping = () => {
+    setGroupByProject(prev => !prev);
+    toast({
+      title: groupByProject ? 'Individual View' : 'Project View',
+      description: groupByProject 
+        ? 'Showing resources individually'
+        : 'Resources grouped by project'
+    });
+  };
+
   return (
     <div className="container mx-auto py-8 px-4">
       <header className="mb-8 p-6 rounded-lg bg-gradient-to-r from-[#F2FCE2] to-[#D3E4FD]">
@@ -101,14 +118,23 @@ const Index = () => {
             <h1 className="text-3xl font-bold mb-2">Resource Utilization Dashboard</h1>
             <p className="text-muted-foreground">Monitor your team's utilization, performance, and budget allocation</p>
           </div>
-          <Button 
-            onClick={handleDownload} 
-            disabled={isDownloading}
-            className="bg-primary text-white hover:bg-primary/90"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            {isDownloading ? 'Downloading...' : 'Download Dashboard'}
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              onClick={toggleGrouping} 
+              className="bg-white text-primary border border-primary hover:bg-primary hover:text-white"
+            >
+              <Layers className="mr-2 h-4 w-4" />
+              {groupByProject ? 'Individual View' : 'Group by Project'}
+            </Button>
+            <Button 
+              onClick={handleDownload} 
+              disabled={isDownloading}
+              className="bg-primary text-white hover:bg-primary/90"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              {isDownloading ? 'Downloading...' : 'Download Dashboard'}
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -167,8 +193,14 @@ const Index = () => {
               Showing {filteredData.length} resources
               {clientPartnerFilter !== "All" && ` for ${clientPartnerFilter}`}
               {endDateFilter && ` ending before ${endDateFilter}`}
+              {groupByProject && ` in ${groupedData.length} projects`}
             </div>
-            <ResourceTable data={filteredData} />
+            
+            {groupByProject ? (
+              <GroupedResourceTable data={groupedData} />
+            ) : (
+              <ResourceTable data={filteredData} />
+            )}
           </TabsContent>
           
           <TabsContent value="charts">

@@ -1,5 +1,4 @@
-
-import { ResourceData, SummaryStats } from "../types/resource";
+import { ResourceData, SummaryStats, GroupedResources } from "../types/resource";
 import { v4 as uuidv4 } from 'uuid';
 
 export const resourceData: ResourceData[] = [
@@ -241,4 +240,47 @@ export function formatCurrency(amount: number): string {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(amount);
+}
+
+// New function to group resources by project
+export function groupResourcesByProject(data: ResourceData[]): GroupedResources[] {
+  const groupedMap = new Map<string, ResourceData[]>();
+  
+  // Group resources by project
+  data.forEach(resource => {
+    const key = `${resource.client}-${resource.project}`;
+    if (!groupedMap.has(key)) {
+      groupedMap.set(key, []);
+    }
+    groupedMap.get(key)!.push(resource);
+  });
+  
+  // Convert map to array structure
+  const result: GroupedResources[] = Array.from(groupedMap.entries()).map(([key, resources]) => {
+    const [client, project] = key.split('-');
+    const totalBudget = resources.reduce((sum, r) => sum + r.totalBudget, 0);
+    const burnedBudget = resources.reduce((sum, r) => sum + r.burnedBudget, 0);
+    const remainingBudget = resources.reduce((sum, r) => sum + r.remainingBudget, 0);
+    const avgBurnRate = resources.length > 0
+      ? Math.round(resources.reduce((sum, r) => sum + r.burnRate, 0) / resources.length)
+      : 0;
+    
+    return {
+      client,
+      project,
+      resources,
+      metrics: {
+        totalBudget,
+        burnedBudget,
+        remainingBudget,
+        avgBurnRate,
+        resourceCount: resources.length
+      }
+    };
+  });
+  
+  // Sort by client and project
+  return result.sort((a, b) => {
+    return a.client === b.client ? a.project.localeCompare(b.project) : a.client.localeCompare(b.client);
+  });
 }

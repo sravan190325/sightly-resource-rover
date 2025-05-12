@@ -27,3 +27,18 @@ export interface SummaryStats {
   };
   contractCount: number;
 }
+
+export interface GroupMetrics {
+  totalBudget: number;
+  burnedBudget: number;
+  remainingBudget: number;
+  avgBurnRate: number;
+  resourceCount: number;
+}
+
+export interface GroupedResources {
+  client: string;
+  project: string;
+  resources: ResourceData[];
+  metrics: GroupMetrics;
+}
