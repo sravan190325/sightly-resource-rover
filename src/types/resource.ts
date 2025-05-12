@@ -1,4 +1,3 @@
-
 export interface ResourceData {
   id: string;
   client: string;
@@ -16,6 +15,7 @@ export interface ResourceData {
   burnedBudget: number;
   remainingBudget: number;
   burnRate: number;
+  region: 'IDC' | 'US' | 'EMEA' | 'LATAM';
 }
 
 export interface SummaryStats {

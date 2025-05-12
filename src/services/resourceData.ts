@@ -1,3 +1,4 @@
+
 import { ResourceData, SummaryStats, GroupedResources } from "../types/resource";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -18,7 +19,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 100000,
     burnedBudget: 64109,
     remainingBudget: 35891,
-    burnRate: 64
+    burnRate: 64,
+    region: "US"
   },
   {
     id: uuidv4(),
@@ -36,7 +38,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 120000,
     burnedBudget: 73232,
     remainingBudget: 46768,
-    burnRate: 61
+    burnRate: 61,
+    region: "IDC"
   },
   {
     id: uuidv4(),
@@ -54,7 +57,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 75000,
     burnedBudget: 28500,
     remainingBudget: 46500,
-    burnRate: 38
+    burnRate: 38,
+    region: "US"
   },
   {
     id: uuidv4(),
@@ -72,7 +76,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 110000,
     burnedBudget: 66688,
     remainingBudget: 43312,
-    burnRate: 61
+    burnRate: 61,
+    region: "IDC"
   },
   {
     id: uuidv4(),
@@ -90,7 +95,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 95000,
     burnedBudget: 48780,
     remainingBudget: 46220,
-    burnRate: 51
+    burnRate: 51,
+    region: "EMEA"
   },
   {
     id: uuidv4(),
@@ -108,7 +114,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 87000,
     burnedBudget: 33790,
     remainingBudget: 53210,
-    burnRate: 39
+    burnRate: 39,
+    region: "LATAM"
   },
   {
     id: uuidv4(),
@@ -126,7 +133,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 200000,
     burnedBudget: 86438,
     remainingBudget: 113562,
-    burnRate: 43
+    burnRate: 43,
+    region: "US"
   },
   {
     id: uuidv4(),
@@ -144,7 +152,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 60000,
     burnedBudget: 48600,
     remainingBudget: 11400,
-    burnRate: 81
+    burnRate: 81,
+    region: "LATAM"
   },
   {
     id: uuidv4(),
@@ -162,7 +171,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 150000,
     burnedBudget: 35562,
     remainingBudget: 114438,
-    burnRate: 24
+    burnRate: 24,
+    region: "EMEA"
   },
   {
     id: uuidv4(),
@@ -180,7 +190,8 @@ export const resourceData: ResourceData[] = [
     totalBudget: 105000,
     burnedBudget: 55890,
     remainingBudget: 49110,
-    burnRate: 53
+    burnRate: 53,
+    region: "IDC"
   }
 ];
 

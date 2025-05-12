@@ -12,7 +12,6 @@ import { GroupedResources, ResourceData } from '@/types/resource';
 import { formatCurrency, getBudgetClass } from '@/services/resourceData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChevronDown, ChevronRight, Users, Layers } from 'lucide-react';
-import ResourceTable from './ResourceTable';
 
 interface GroupedResourceTableProps {
   data: GroupedResources[];
@@ -80,6 +79,7 @@ const GroupedResourceTable: React.FC<GroupedResourceTableProps> = ({ data }) => 
                       <TableRow className="bg-muted/40">
                         <TableHead>Resource</TableHead>
                         <TableHead>Service Line</TableHead>
+                        <TableHead>Region</TableHead>
                         <TableHead>Start Date</TableHead>
                         <TableHead>End Date</TableHead>
                         <TableHead>Booking (%)</TableHead>
@@ -93,6 +93,7 @@ const GroupedResourceTable: React.FC<GroupedResourceTableProps> = ({ data }) => 
                         <TableRow key={resource.id}>
                           <TableCell className="font-medium">{resource.resource}</TableCell>
                           <TableCell>{resource.serviceLine}</TableCell>
+                          <TableCell>{resource.region}</TableCell>
                           <TableCell>{resource.startDate}</TableCell>
                           <TableCell>{resource.endDate}</TableCell>
                           <TableCell>{resource.booking * 100}%</TableCell>

@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useRef } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -17,6 +16,7 @@ import html2canvas from 'html2canvas';
 const Index = () => {
   const [clientPartnerFilter, setClientPartnerFilter] = useState<string>("All");
   const [endDateFilter, setEndDateFilter] = useState<string | null>(null);
+  const [regionFilter, setRegionFilter] = useState<string>("All");
   const [groupByProject, setGroupByProject] = useState<boolean>(false);
   const dashboardRef = useRef<HTMLDivElement>(null);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -25,9 +25,10 @@ const Index = () => {
     return resourceData.filter(item => {
       const matchesClientPartner = clientPartnerFilter === "All" || item.clientPartner === clientPartnerFilter;
       const matchesEndDate = !endDateFilter || new Date(item.endDate) <= new Date(endDateFilter);
-      return matchesClientPartner && matchesEndDate;
+      const matchesRegion = regionFilter === "All" || item.region === regionFilter;
+      return matchesClientPartner && matchesEndDate && matchesRegion;
     });
-  }, [clientPartnerFilter, endDateFilter]);
+  }, [clientPartnerFilter, endDateFilter, regionFilter]);
 
   const groupedData = useMemo(() => {
     return groupResourcesByProject(filteredData);
@@ -37,13 +38,18 @@ const Index = () => {
     return calculateSummaryStats(filteredData);
   }, [filteredData]);
 
-  const handleFilterChange = (clientPartner: string, endDate: string | null) => {
+  const handleFilterChange = (clientPartner: string, endDate: string | null, region: string) => {
     setClientPartnerFilter(clientPartner);
     setEndDateFilter(endDate);
+    setRegionFilter(region);
+    
+    let toastMessage = `Showing data for ${clientPartner === 'All' ? 'all client partners' : clientPartner}`;
+    if (endDate) toastMessage += ` ending before ${endDate}`;
+    if (region !== 'All') toastMessage += ` in ${region} region`;
     
     toast({
       title: 'Filters Applied',
-      description: `Showing data for ${clientPartner === 'All' ? 'all client partners' : clientPartner}${endDate ? ` ending before ${endDate}` : ''}`,
+      description: toastMessage,
     });
   };
 
@@ -193,6 +199,7 @@ const Index = () => {
               Showing {filteredData.length} resources
               {clientPartnerFilter !== "All" && ` for ${clientPartnerFilter}`}
               {endDateFilter && ` ending before ${endDateFilter}`}
+              {regionFilter !== "All" && ` in ${regionFilter} region`}
               {groupByProject && ` in ${groupedData.length} projects`}
             </div>
             

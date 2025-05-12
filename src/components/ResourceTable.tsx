@@ -29,6 +29,7 @@ const ResourceTable: React.FC<ResourceTableProps> = ({ data }) => {
             <TableHead>End Date</TableHead>
             <TableHead>Resource</TableHead>
             <TableHead>Service Line</TableHead>
+            <TableHead>Region</TableHead>
             <TableHead>Booking (%)</TableHead>
             <TableHead>Performance</TableHead>
             <TableHead>Contract</TableHead>
@@ -53,6 +54,7 @@ const ResourceTable: React.FC<ResourceTableProps> = ({ data }) => {
                 <TableCell>{row.endDate}</TableCell>
                 <TableCell>{row.resource}</TableCell>
                 <TableCell>{row.serviceLine}</TableCell>
+                <TableCell>{row.region}</TableCell>
                 <TableCell>{row.booking * 100}%</TableCell>
                 <TableCell>{row.performance}</TableCell>
                 <TableCell>{row.isContract ? 'Yes' : 'No'}</TableCell>
@@ -64,7 +66,7 @@ const ResourceTable: React.FC<ResourceTableProps> = ({ data }) => {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={15} className="h-24 text-center">
+              <TableCell colSpan={16} className="h-24 text-center">
                 No results found
               </TableCell>
             </TableRow>
