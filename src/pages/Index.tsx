@@ -144,7 +144,7 @@ const Index = () => {
             <div className="flex flex-col gap-2">
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-budget-high mr-2"></div>
-                <span className="text-sm">High Burn Rate (>60%)</span>
+                <span className="text-sm">High Burn Rate (&gt;60%)</span>
               </div>
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-budget-medium mr-2"></div>
@@ -152,7 +152,7 @@ const Index = () => {
               </div>
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-budget-low mr-2"></div>
-                <span className="text-sm">Low Burn Rate (<40%)</span>
+                <span className="text-sm">Low Burn Rate (&lt;40%)</span>
               </div>
             </div>
           </div>
