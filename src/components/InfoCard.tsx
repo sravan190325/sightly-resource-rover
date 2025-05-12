@@ -15,9 +15,10 @@ interface InfoCardProps {
   description?: string;
   type: 'calendar' | 'money' | 'users' | 'warning' | 'info';
   footer?: string;
+  className?: string;
 }
 
-const InfoCard: React.FC<InfoCardProps> = ({ title, value, description, type, footer }) => {
+const InfoCard: React.FC<InfoCardProps> = ({ title, value, description, type, footer, className }) => {
   const getIcon = () => {
     switch (type) {
       case 'calendar':
@@ -34,7 +35,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ title, value, description, type, fo
   };
 
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">
           {title}

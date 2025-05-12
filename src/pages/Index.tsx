@@ -58,13 +58,15 @@ const Index = () => {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <header className="mb-8">
+      <header className="mb-8 p-6 rounded-lg bg-gradient-to-r from-[#F2FCE2] to-[#D3E4FD]">
         <h1 className="text-3xl font-bold mb-2">Resource Utilization Dashboard</h1>
         <p className="text-muted-foreground">Monitor your team's utilization, performance, and budget allocation</p>
       </header>
 
       {/* Filter Section */}
-      <FilterBar onFilterChange={handleFilterChange} />
+      <div className="mb-8 p-4 rounded-lg bg-[#F1F0FB] shadow-sm">
+        <FilterBar onFilterChange={handleFilterChange} />
+      </div>
 
       {/* Quick Stats Section */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -73,29 +75,35 @@ const Index = () => {
           value={`${Math.round(summaryStats.avgBooking * 100)}%`}
           type="info"
           description="Average resource booking percentage"
+          className="bg-[#D3E4FD] border-[#D3E4FD]"
         />
         <InfoCard 
           title="Contract Resources" 
           value={summaryStats.contractCount}
           type="users"
           description={`${Math.round((summaryStats.contractCount / filteredData.length) * 100)}% of total`}
+          className="bg-[#E5DEFF] border-[#E5DEFF]"
         />
         <InfoCard 
           title="Average Burn Rate" 
           value={getAverageBurnRate(filteredData)}
           type="money"
           description="Across all projects"
+          className="bg-[#FFDEE2] border-[#FFDEE2]"
         />
         <InfoCard 
           title="Low Utilization" 
           value={highlightedData.lowUtilization.length}
           type="warning"
           description="Resources below 70% booking"
+          className="bg-[#FDE1D3] border-[#FDE1D3]"
         />
       </div>
 
-      {/* Summary Boxes */}
-      <SummaryBoxes stats={summaryStats} />
+      {/* Summary Boxes with pastel colors */}
+      <div className="mb-6 p-4 rounded-lg bg-[#FEF7CD] shadow-sm">
+        <SummaryBoxes stats={summaryStats} />
+      </div>
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="table" className="mt-6">
