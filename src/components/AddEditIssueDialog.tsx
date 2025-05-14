@@ -29,12 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { IssueData } from '@/types/issue';
 
 interface AddEditIssueDialogProps {
@@ -99,10 +93,17 @@ const AddEditIssueDialog: React.FC<AddEditIssueDialogProps> = ({
         history: updatedHistory,
       });
     } else {
-      // Create new issue
+      // Create new issue - Fix the TypeScript error by explicitly defining all required properties
       const newIssue: IssueData = {
         id: uuidv4(),
-        ...values,
+        client: values.client,
+        project: values.project,
+        clientPartner: values.clientPartner,
+        raisedBy: values.raisedBy,
+        description: values.description,
+        resolutionOwner: values.resolutionOwner,
+        escalated: values.escalated,
+        ragStatus: values.ragStatus,
         dateCreated: now.split("T")[0],
         dateResolved: null,
         history: [
